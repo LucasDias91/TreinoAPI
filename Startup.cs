@@ -29,6 +29,19 @@ namespace TreinoAPI
         {
             services.AddTransient<UsuariosDAO>();
 
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Swagger Implementation",
+                    Description = "Available Web APIs",
+                    TermsOfService = "None"
+                });
+            });
+
             string conn = @"DataSource= Lucas-PC; InitialCatalog = Treino; UserID= USR_Treino; Password= 081991@RAtm";
 
             services.AddDistributedSqlServerCache(opt =>
@@ -121,6 +134,11 @@ namespace TreinoAPI
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseCors(MyAllowSpecificOrigins);
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+            });
             app.UseMvc();
         }
 
