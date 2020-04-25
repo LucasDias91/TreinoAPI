@@ -13,8 +13,6 @@ namespace ApresentacoesAPI.DTO.Auth
 
         public int IDUsuario { get; set; }
 
-        public int IDCliente { get; set; }
-
         public string GrantType { get; set; }
 
         public string Token { get; set; }

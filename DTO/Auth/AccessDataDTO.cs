@@ -7,18 +7,14 @@ namespace ApresentacoesAPI.DTO.Auth
 {
     public class AccessDataDTO
     {
-        public string secretKeyCliente { get; set; }
 
-        public string secretKeyUsuario { get; set; }
+        public string Created { get; set; }
 
-        public string created { get; set; }
+        public string Expiration { get; set; }
 
-        public string expiration { get; set; }
+        public string RefreshToken { get; set; }
 
-        public string refreshToken { get; set; }
+        public string AccessToken { get; set; }
 
-        public string accessToken { get; set; }
-
-        public string idCiclo { get; set; }
     }
 }

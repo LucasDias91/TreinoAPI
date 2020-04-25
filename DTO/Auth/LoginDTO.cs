@@ -18,10 +18,6 @@ namespace ApresentacoesAPI.DTO.Auth
     //    [RequiredIf("Grant_Type=='password'", ErrorMessage = "Password is required.")]
         public string Password { get; set; }
 
-        public string SecretKeyCliente { get; set; }
-
-        public string SecretKeyUsuario { get; set; }
-
        // [RequiredIf("Grant_Type== 'refresh_token'", ErrorMessage = "RefreshToken is required.")]
         public string RefreshToken { get; set; }
     }

@@ -11,6 +11,5 @@ namespace ApresentacoesAPI.DTO.Auth
 
         public string IDUsuario { get; set; }
 
-        public string IDCliente { get; set; }
     }
 }
