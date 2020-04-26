@@ -33,12 +33,11 @@ namespace TreinoAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Swagger Implementation",
-                    Description = "Available Web APIs",
-                    TermsOfService = "None"
+                    Title = "Treino API",
+                    Description = ""
                 });
             });
 
