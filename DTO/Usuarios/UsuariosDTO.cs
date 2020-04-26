@@ -45,10 +45,7 @@ namespace TreinoAPI.DTO.Usuarios
 
         public bool Pendente { get; set; }
 
-        public bool Ativo { get; set; }
+        public bool Ativo { get; set; } = true
 
-        public DateTime CreationDate { get; set; }
-
-        public DateTime LastEditDate { get; set; }
     }
 }

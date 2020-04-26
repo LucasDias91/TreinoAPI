@@ -91,7 +91,7 @@ namespace TreinoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(JsonConvert.SerializeObject(ex.InnerException));
             }
             return Ok(_accessData);
         }
@@ -120,7 +120,7 @@ namespace TreinoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(JsonConvert.SerializeObject(ex.InnerException));
             }
 
             return Ok("Registro efetuado com sucesso!");
