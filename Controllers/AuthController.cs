@@ -91,7 +91,7 @@ namespace TreinoAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(JsonConvert.SerializeObject(ex.InnerException));
+                return BadRequest(ex);
             }
             return Ok(_accessData);
         }
@@ -141,7 +141,10 @@ namespace TreinoAPI.Controllers
         private AccessDataDTO GenerateToken(string userID, SigningConfigurationsDTO signingConfigurations, TokenConfigurationsDTO tokenConfigurations, IDistributedCache cache)
         {
             ClaimsIdentity identity = new ClaimsIdentity(
-                 new GenericIdentity(userID, "IDUsuario")
+                 new GenericIdentity(userID, "IDUsuario"),
+                   new[] {
+                        new Claim("IDUsuario",  userID)
+                 }
              );
 
             DateTime dataCriacao = DateTime.Now;

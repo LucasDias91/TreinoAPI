@@ -39,9 +39,10 @@ namespace TreinoAPI
                     Title = "Treino API",
                     Description = ""
                 });
+
             });
 
-            string conn = @"DataSource= Lucas-PC; InitialCatalog = Treino; UserID= USR_Treino; Password= 081991@RAtm";
+            string conn = @"Data Source=Lucas-PC;Initial Catalog=Treino;User ID=USR_Treino;Password=081991@RAtm";
 
             services.AddDistributedSqlServerCache(opt =>
             {

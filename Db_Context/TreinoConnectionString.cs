@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ApresentacoesAPI.DTO.Auth;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace TreinoAPI.Db_Context
         }
 
         public virtual DbSet<UsuariosDTO> Usuarios { get; set; }
+
+        public virtual DbSet<SessoesDTO> Sessoes { get; set; }
     }
 }
