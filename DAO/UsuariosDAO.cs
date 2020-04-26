@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TreinoAPI.Db_Context;
 using TreinoAPI.DTO.Auth;
 using TreinoAPI.DTO.Usuarios;
@@ -27,6 +28,17 @@ namespace TreinoAPI.DAO
                                     .FirstOrDefault();
         }
 
+        public UsuarioDisplayDTO SelectUsuarioDisplay(int IDUsuario, Nullable<DateTime> DataAtualizacao)
+        {
+            return DbTreino.Usuarios.Where((usuario) => usuario.IDUsuario == IDUsuario && usuario.LastEditDate > DataAtualizacao)
+                                     .Select((usuario)=> new UsuarioDisplayDTO
+                                     {
+                                         Foto64 = usuario.Foto64,
+                                         Display = GetDisplayName(usuario.Nome)
+
+                                     }).FirstOrDefault();
+        }
+
         public void InsertUsuario(RegisterDTO Register)
         {
             UsuariosDTO _usuario = PreparaUsuario(Register);
@@ -43,6 +55,18 @@ namespace TreinoAPI.DAO
             _usuario.Senha = Register.Password;
             _usuario.Nome = Register.Name;
             return _usuario;
+        }
+
+        private string GetDisplayName(string Nome)
+        {
+            string[] names = Nome.Split(' ');
+
+            if (names.First() == names.Last())
+            {
+                return names.First();
+
+            }
+            return names.First() + ' ' + names.Last();
         }
     }
 }

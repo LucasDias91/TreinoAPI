@@ -47,5 +47,9 @@ namespace TreinoAPI.DTO.Usuarios
 
         public bool Ativo { get; set; } = true;
 
+        public Nullable<DateTime> CreationDate { get; set; }
+
+        public Nullable<DateTime> LastEditDate { get; set; }
+
     }
 }
