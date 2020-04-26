@@ -45,7 +45,7 @@ namespace TreinoAPI.DTO.Usuarios
 
         public bool Pendente { get; set; }
 
-        public bool Ativo { get; set; } = true
+        public bool Ativo { get; set; } = true;
 
     }
 }
