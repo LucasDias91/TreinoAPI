@@ -24,8 +24,7 @@ namespace TreinoAPI.Controllers
 
             ResultadoHelper _ResultadoHelper = new ResultadoHelper();
             ResultadoDTO _Resultado = new ResultadoDTO();
-            // int _IDUsuario = User.Identity.GetIDUsuario();
-            int _IDUsuario = 1;
+            int _IDUsuario = User.Identity.GetIDUsuario();
 
             try
             {
