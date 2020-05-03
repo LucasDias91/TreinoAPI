@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TreinoAPI.Db_Context;
 using TreinoAPI.DTO.Auth;
@@ -28,15 +29,15 @@ namespace TreinoAPI.DAO
                                     .FirstOrDefault();
         }
 
-        public UsuarioDisplayDTO SelectUsuarioDisplay(int IDUsuario, Nullable<DateTime> DataAtualizacao)
+        public List<UsuarioDisplayDTO> SelectUsuarioDisplay(int IDUsuario, Nullable<DateTime> DataAtualizacao)
         {
             return DbTreino.Usuarios.Where((usuario) => usuario.IDUsuario == IDUsuario && usuario.LastEditDate > DataAtualizacao)
                                      .Select((usuario)=> new UsuarioDisplayDTO
                                      {
                                          Foto64 = usuario.Foto64,
-                                         Display = GetDisplayName(usuario.Nome)
+                                         Display = usuario.Nome  + " " + usuario.Sobrenome
 
-                                     }).FirstOrDefault();
+                                     }).ToList();
         }
 
         public void InsertUsuario(RegisterDTO Register)

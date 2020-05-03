@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TreinoAPI.Claims;
@@ -17,7 +18,6 @@ namespace TreinoAPI.Controllers
         #region getUsuario
         [HttpGet]
         [Route("Display")]
-        [AllowAnonymous]
         public IActionResult GetUsuarioDisplay([FromServices] UsuariosDAO _UsuariosDAO,
                                                [FromQuery] ParamsDTO Params)
         {
@@ -29,7 +29,7 @@ namespace TreinoAPI.Controllers
             try
             {
                
-               UsuarioDisplayDTO _UsuarioDisplay = _UsuariosDAO.SelectUsuarioDisplay(_IDUsuario, Params.DataAtualizacao);
+               List<UsuarioDisplayDTO> _UsuarioDisplay = _UsuariosDAO.SelectUsuarioDisplay(_IDUsuario, Params.DataAtualizacao);
                 _Resultado = _ResultadoHelper.PreparaResultado(_UsuarioDisplay);
             }
             catch (Exception ex)
