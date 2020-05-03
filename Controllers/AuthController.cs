@@ -109,10 +109,10 @@ namespace TreinoAPI.Controllers
 
             try
             {
-                UsuariosDTO _usuario = usuariosDAO.SelectUsuarioPorUsername(Register.Username);
+                UsuariosDTO _usuario = usuariosDAO.SelectUsuarioPorEmail(Register.Email);
                 if (_usuario != null)
                 {
-                    return BadRequest("Usuário já existe!");
+                    return BadRequest(new { msg = "Email já cadastrado" });
                 }
 
                 usuariosDAO.InsertUsuario(Register);
@@ -123,7 +123,7 @@ namespace TreinoAPI.Controllers
                 return BadRequest(JsonConvert.SerializeObject(ex.InnerException));
             }
 
-            return Ok("Registro efetuado com sucesso!");
+            return Ok(new {msg = "Registro efetuado com sucesso!" });
         }
 
         private void SaveSessao(string idUsuario, LoginDTO Login, AccessDataDTO AccessData)

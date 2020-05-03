@@ -9,10 +9,13 @@ namespace TreinoAPI.DTO.Auth
     public class RegisterDTO
     {
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
-        public string Username { get; set; }
+        public string LastName { get; set; }
+
+        [Required]
+        public string Email { get; set; }
 
         [Required]
         [MinLength(4)]

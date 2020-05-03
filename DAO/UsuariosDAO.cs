@@ -16,15 +16,15 @@ namespace TreinoAPI.DAO
                                     .FirstOrDefault();
         }
 
-        public UsuariosDTO SelectUsuarioPorCredenciais(string Usuario, string Senha)
+        public UsuariosDTO SelectUsuarioPorCredenciais(string Email, string Senha)
         {
-            return DbTreino.Usuarios.Where((usuario) => usuario.Usuario == Usuario && usuario.Senha == Senha)
+            return DbTreino.Usuarios.Where((usuario) => usuario.Email == Email && usuario.Senha == Senha)
                                     .FirstOrDefault();
         }
 
-        public UsuariosDTO SelectUsuarioPorUsername(string Username)
+        public UsuariosDTO SelectUsuarioPorEmail(string Email)
         {
-            return DbTreino.Usuarios.Where((usuario) => usuario.Usuario == Username)
+            return DbTreino.Usuarios.Where((usuario) => usuario.Email == Email)
                                     .FirstOrDefault();
         }
 
@@ -51,9 +51,10 @@ namespace TreinoAPI.DAO
         {
             UsuariosDTO _usuario = new UsuariosDTO();
 
-            _usuario.Usuario = Register.Username;
+            _usuario.Nome = Register.FirstName;
+            _usuario.Sobrenome = Register.LastName;
+            _usuario.Email = Register.Email;
             _usuario.Senha = Register.Password;
-            _usuario.Nome = Register.Name;
             return _usuario;
         }
 
