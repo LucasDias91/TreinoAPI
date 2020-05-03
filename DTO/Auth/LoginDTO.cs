@@ -13,7 +13,7 @@ namespace ApresentacoesAPI.DTO.Auth
         public string Grant_Type { get; set; }
 
       //  [RequiredIf("Grant_Type== 'password'", ErrorMessage = "UserName is required.")]
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
     //    [RequiredIf("Grant_Type=='password'", ErrorMessage = "Password is required.")]
         public string Password { get; set; }

@@ -43,7 +43,7 @@ namespace TreinoAPI.Controllers
             {
                 if (login.Grant_Type == "password")
                 {
-                    var _usuario = usuariosDAO.SelectUsuarioPorCredenciais(login.UserName, login.Password);
+                    var _usuario = usuariosDAO.SelectUsuarioPorCredenciais(login.Email, login.Password);
 
                     credenciaisValidas = (_usuario != null);
 
@@ -82,7 +82,7 @@ namespace TreinoAPI.Controllers
 
                 if (!credenciaisValidas)
                 {
-                    return BadRequest("Usuário ou senha inválidos. Caso não se lembre, entre em contato com o administrador!");
+                    return BadRequest("Usuário ou senha inválidos. Caso não se lembre, clique em esqueci minha senha!");
                 }
 
                 _accessData = GenerateToken(_IDUsuario, signingConfigurations, tokenConfigurations, cache);
