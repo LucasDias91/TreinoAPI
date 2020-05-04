@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TreinoAPI.DTO.Treinos;
 using TreinoAPI.DTO.Usuarios;
 
 namespace TreinoAPI.Db_Context
@@ -18,5 +19,7 @@ namespace TreinoAPI.Db_Context
         public virtual DbSet<UsuariosDTO> Usuarios { get; set; }
 
         public virtual DbSet<SessoesDTO> Sessoes { get; set; }
+
+        public virtual DbSet<CiclosDTO> Ciclos { get; set; }
     }
 }
