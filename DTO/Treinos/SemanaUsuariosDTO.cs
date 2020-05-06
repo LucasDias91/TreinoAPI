@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    [Table("Ciclos")]
-    public class CiclosDTO
+    [Table("SemanaUsuarios")]
+    public class SemanaUsuariosDTO
     {
         [Key]
-        public int IDCiclo { get; set; }
+        public int IDSemanaUsuario { get; set; }
 
-        public string Ciclo { get; set; }
+        public int IDUsuario { get; set; }
+
+        public int IDSemana { get; set; }
 
         public DateTime DataInicio { get; set; }
 
         public DateTime DataFim { get; set; }
-
-        public bool Ativo { get; set; } = true;
     }
 }

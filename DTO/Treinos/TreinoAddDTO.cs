@@ -9,6 +9,6 @@ namespace TreinoAPI.DTO.Treinos
     public class TreinoAddDTO
     {
         [Required]
-        public DateTime DataSolicatacao { get; set; }
+        public DateTime DataInicio { get; set; }
     }
 }

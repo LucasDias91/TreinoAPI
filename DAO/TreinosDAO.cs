@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -13,31 +14,59 @@ namespace TreinoAPI.DAO
 
         public void PopulaTreinoDias(int IDUsuario)
         {
-            DbTreino.Database.ExecuteSqlCommand("Insert Into TreinoDias (IDUsuario,IDCiclo, IDDivisao, Executado, Ativo)" +
-                                                " Select Distinct @IDUsuario, Ciclo.IDCiclo, Divisao.IDDivisao, null, 0 from Treino$ as Treino" +
-                                                " inner Join Ciclos as Ciclo on Ciclo.IDCiclo = Treino.Ciclo" +
+            DbTreino.Database.ExecuteSqlCommand("Insert Into TreinoDias (IDUsuario,IDSemana, IDDivisao, Executado, Ativo)" +
+                                                " Select Distinct @IDUsuario, Semana.IDSemana, Divisao.IDDivisao, null, 0 from Treino$ as Treino" +
+                                                " inner Join Semanas as Semana on Semana.IDSemana = Treino.Ciclo" +
                                                 " inner join Divisoes as Divisao on Treino.Divisao = Divisao.Divisao",
                                                  new SqlParameter("@IDUsuario", IDUsuario));
         }
 
-        public CiclosDTO InsertCiclo(CiclosDTO CicloAdd)
+        public List<SemanasDTO> SelectSemanas()
         {
-            DbTreino.Add(CicloAdd);
-            DbTreino.SaveChanges();
-            return CicloAdd;
+            return DbTreino.Semanas.ToList();
         }
 
-        public List<CiclosDTO> SelectCiclos()
+        public List<SemanaUsuariosDTO> SelectSemanasUsuarioPorIDUsuario(int IDUsuario)
         {
-            return DbTreino.Ciclos.Where((ciclo) => ciclo.Ativo == true)
-                                  .ToList();
+            return DbTreino.SemanaUsuarios.Where((usuario) => usuario.IDUsuario == IDUsuario).ToList();
         }
 
-        public CiclosDTO UpdateCiclo(CiclosDTO CicloEdit)
+        public void InsertTreino(int IDUsuario, DateTime DataInicio, int IDSemana)
         {
-            DbTreino.Update(CicloEdit);
+            try
+            {
+                SemanaUsuariosDTO _SemanaUsuarioAdd = PrepareSemanaUsuario(IDUsuario, DataInicio, IDSemana);
+                DbTreino.Add(_SemanaUsuarioAdd);
+
+            }
+            catch
+            {
+                throw;
+            }
+
             DbTreino.SaveChanges();
-            return CicloEdit;
         }
+
+        private SemanaUsuariosDTO PrepareSemanaUsuario(int IDUsuario, DateTime DataInicio, int IDSemana)
+        {
+            SemanaUsuariosDTO _SemanaUsuarioAdd = new SemanaUsuariosDTO();
+            List<TreinoDiasDTO> _treinosDias = SelectTreinoDiasPorIDSemana(IDSemana);
+            _SemanaUsuarioAdd.IDUsuario = IDUsuario;
+            _SemanaUsuarioAdd.DataInicio = DataInicio;
+            _SemanaUsuarioAdd.DataFim = DataInicio.AddDays(_treinosDias.Count());
+            _SemanaUsuarioAdd.IDSemana = IDSemana;
+            return _SemanaUsuarioAdd;
+        }
+
+        private List<TreinoDiasDTO> SelectTreinoDiasPorIDSemana(int IDSemana)
+        {
+            return DbTreino.TreinoDias.Where((treino) => treino.IDSemana == IDSemana).ToList();
+        }
+
+        private List<SemanaUsuariosDTO> SelectSemanaUsuariosPorIDUsuario(int IDUsuario)
+        {
+            return DbTreino.SemanaUsuarios.Where((treino) => treino.IDUsuario == IDUsuario).ToList();
+        }
+
     }
 }

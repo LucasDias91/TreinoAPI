@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    [Table("TreinoDia")]
+    [Table("TreinoDias")]
     public class TreinoDiasDTO
     {
         [Key]
@@ -15,11 +15,11 @@ namespace TreinoAPI.DTO.Treinos
 
         public int IDUsuario { get; set; }
 
-        public int IDCiclo { get; set; }
+        public int IDSemana { get; set; }
 
         public int IDDivisao { get; set; }
 
-        public bool Executado { get; set; }
+        public Nullable<bool> Executado { get; set; }
 
         public bool Ativo { get; set; }
 

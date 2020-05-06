@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TreinoAPI.Claims;
+using TreinoAPI.DAO;
 using TreinoAPI.DTO.Treinos;
 
 namespace TreinoAPI.Controllers
@@ -15,8 +17,8 @@ namespace TreinoAPI.Controllers
     {
         [HttpPost]
         [Route("Treino")]
-        [AllowAnonymous]
-        public IActionResult PostTreino([FromBody] TreinoAddDTO TreinoAdd)
+        public IActionResult PostTreino([FromBody] TreinoAddDTO TreinoAdd,
+                                        [FromServices] TreinosDAO TreinosDAO)
         {
             if (!ModelState.IsValid)
             {
@@ -24,6 +26,22 @@ namespace TreinoAPI.Controllers
             }
             try
             {
+                int _IDUsuario = User.Identity.GetIDUsuario(); 
+
+                List<SemanaUsuariosDTO> _SemanaUsuario = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(_IDUsuario);
+
+                if(_SemanaUsuario.Count() == 0)
+                {
+                    if(TreinoAdd.DataInicio < DateTime.Now)
+                    {
+                        return BadRequest("Data Inicio deve ser maior ou igual a data de hoje");
+                    }
+                    List<SemanasDTO> _Semanas = TreinosDAO.SelectSemanas();
+                    List<SemanaUsuariosDTO> _SemanasUsuarios = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(_IDUsuario);
+                    var Semanas = _Semanas.Where(item => !_SemanasUsuarios.Any(item2 => item2.IDSemana == item.IDSemana));
+                    int _IDSemana = Semanas.Min((semana) => semana.IDSemana);
+                    TreinosDAO.InsertTreino(_IDUsuario, TreinoAdd.DataInicio, _IDSemana);
+                }
 
             }
             catch(Exception ex)
@@ -31,8 +49,7 @@ namespace TreinoAPI.Controllers
                 return BadRequest(ex);
             }
 
-            return Ok(TreinoAdd);
-
+            return Ok();
         }
 
     }
