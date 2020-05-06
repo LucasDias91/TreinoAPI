@@ -40,12 +40,13 @@ namespace TreinoAPI.DAO
                                      }).ToList();
         }
 
-        public void InsertUsuario(RegisterDTO Register)
+        public int InsertUsuario(RegisterDTO Register)
         {
             UsuariosDTO _usuario = PreparaUsuario(Register);
 
             DbTreino.Add(_usuario);
             DbTreino.SaveChanges();
+            return _usuario.IDUsuario;
         }
 
         private UsuariosDTO PreparaUsuario(RegisterDTO Register)

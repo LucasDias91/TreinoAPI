@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    [Table("Divisoes")]
-    public class DivisoesDTO
+    [Table("Exercicios")]
+    public class ExerciciosDTO
     {
         [Key]
-        public int IDDivisao { get; set; }
+        public int IDExercicio { get; set; }
 
-        public string Divisao { get; set; }
+        public string Exercicio { get; set; }
     }
 }

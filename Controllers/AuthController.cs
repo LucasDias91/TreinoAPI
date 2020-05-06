@@ -100,7 +100,8 @@ namespace TreinoAPI.Controllers
         [Route("Register")]
         [AllowAnonymous]
         public IActionResult PostRegister([FromBody] RegisterDTO Register,
-                                       [FromServices]UsuariosDAO usuariosDAO)
+                                          [FromServices]UsuariosDAO usuariosDAO,
+                                          [FromServices] TreinosDAO treinosDAO)
         {
             if (!ModelState.IsValid)
             {
@@ -115,12 +116,13 @@ namespace TreinoAPI.Controllers
                     return BadRequest(new { msg = "Email já cadastrado" });
                 }
 
-                usuariosDAO.InsertUsuario(Register);
+                int _IDUsuario = usuariosDAO.InsertUsuario(Register);
+                treinosDAO.PopulaTreinoDias(_IDUsuario);
 
             }
             catch (Exception ex)
             {
-                return BadRequest(JsonConvert.SerializeObject(ex.InnerException));
+                return BadRequest(JsonConvert.SerializeObject(ex));
             }
 
             return Ok(new {msg = "Registro efetuado com sucesso!" });

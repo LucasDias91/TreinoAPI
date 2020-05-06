@@ -28,6 +28,7 @@ namespace TreinoAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<UsuariosDAO>();
+            services.AddTransient<TreinosDAO>();
 
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
 
