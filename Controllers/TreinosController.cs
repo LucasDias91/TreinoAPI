@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TreinoAPI.Claims;
@@ -9,7 +7,6 @@ using TreinoAPI.DTO.EVR;
 using TreinoAPI.DTO.EVR.Treinos;
 using TreinoAPI.DTO.Treinos;
 using TreinoAPI.EVR;
-using TreinoAPI.Helpers;
 
 namespace TreinoAPI.Controllers
 {
@@ -33,8 +30,7 @@ namespace TreinoAPI.Controllers
 
             try
             {
-                //int _IDUsuario = User.Identity.GetIDUsuario();
-                int _IDUsuario = 1;
+                int _IDUsuario = User.Identity.GetIDUsuario();
 
                 TreinoSemanaInsert = TreinosEVR.InsertTreinoSemanaEVR(_IDUsuario, TreinoSemanaAdd, TreinosDAO);
 
@@ -69,8 +65,7 @@ namespace TreinoAPI.Controllers
 
             try
             {
-                //int _IDUsuario = User.Identity.GetIDUsuario();
-                int _IDUsuario = 1;
+                int _IDUsuario = User.Identity.GetIDUsuario();
 
                 TreinoSemanaUpdate = TreinosEVR.UpdateTreinoSemanaEVR(_IDUsuario, TreinoSemanaEdit, TreinosDAO);
 
