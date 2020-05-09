@@ -23,7 +23,7 @@ namespace TreinoAPI.Controllers
         [HttpPost]
         [Route("Login")]
         [AllowAnonymous]
-        public IActionResult postLogin([FromBody]LoginDTO login,
+        public IActionResult PostLogin([FromBody]LoginDTO login,
                                        [FromServices]UsuariosDAO usuariosDAO,
                                        [FromServices]SigningConfigurationsDTO signingConfigurations,
                                        [FromServices]TokenConfigurationsDTO tokenConfigurations,
@@ -117,7 +117,7 @@ namespace TreinoAPI.Controllers
                 }
 
                 int _IDUsuario = usuariosDAO.InsertUsuario(Register);
-                treinosDAO.PopulaTreinoDias(_IDUsuario);
+                treinosDAO.PopulaTreinoUsuarios(_IDUsuario);
 
             }
             catch (Exception ex)
@@ -184,8 +184,6 @@ namespace TreinoAPI.Controllers
             cache.SetString(resultado.RefreshToken, JsonConvert.SerializeObject(refreshTokenData), opcoesCache);
             return resultado;
         }
-
-    
 
     }
 }

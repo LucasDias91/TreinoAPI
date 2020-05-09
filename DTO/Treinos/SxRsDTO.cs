@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    [Table("Exercicios")]
-    public class ExerciciosDTO
+    [Table("SxRs")]
+    public class SxRsDTO
     {
         [Key]
-        public int IDExercicio { get; set; }
+        public int IDSxR { get; set; }
 
-        public string Exercicio { get; set; }
+        public string SxR { get; set; }
 
         public DateTime CreationDate { get; set; }
 

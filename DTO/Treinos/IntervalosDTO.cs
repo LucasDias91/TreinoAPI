@@ -7,27 +7,13 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    [Table("Treinos")]
-    public class TreinosDTO
+    [Table("Intervalos")]
+    public class IntervalosDTO
     {
         [Key]
-        public int IDTreino { get; set; }
-
-        public int IDSemana { get; set; }
-
-        public int IDTipo { get; set; }
-
-        public int IDDivisao { get; set; }
-
-        public int IDGrupo { get; set; }
-
-        public int IDExercicio { get; set; }
-
-        public  int IDSxR { get; set; }
-
-        public  int IDTecAvancada { get; set; }
-
         public int IDIntervalo { get; set; }
+
+        public string Intervalo { get; set; }
 
         public DateTime CreationDate { get; set; }
 

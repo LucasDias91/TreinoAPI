@@ -9,7 +9,7 @@ namespace TreinoAPI.DTO.Treinos
     public class TreinoEditDTO
     {
         [Required]
-        public DateTime DataSolicatacao { get; set; }
+        public DateTime DataInicio { get; set; }
 
         [Required]
         public List<TreinoDiasEditDTO> TreinoDias { get; set; }

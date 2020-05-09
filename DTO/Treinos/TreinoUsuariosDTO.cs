@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    [Table("TreinoDias")]
-    public class TreinoDiasDTO
+    [Table("TreinoUsuarios")]
+    public class TreinoUsuariosDTO
     {
         [Key]
-        public int IDTreinoDia { get; set; }
+        public int IDTreinoUsuario { get; set; }
 
         public int IDUsuario { get; set; }
 
@@ -26,5 +26,6 @@ namespace TreinoAPI.DTO.Treinos
         public Nullable<DateTime> CreationDate { get; set; }
 
         public Nullable<DateTime> LastEditDate { get; set; }
+
     }
 }

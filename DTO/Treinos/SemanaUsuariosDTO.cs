@@ -20,5 +20,11 @@ namespace TreinoAPI.DTO.Treinos
         public DateTime DataInicio { get; set; }
 
         public DateTime DataFim { get; set; }
+
+        public DateTime CreationDate { get; set; }
+
+        public DateTime LastEditDate { get; set; }
+
+        public bool Ativo { get; set; }
     }
 }

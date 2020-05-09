@@ -26,10 +26,18 @@ namespace TreinoAPI.Db_Context
 
         public virtual DbSet<ExerciciosDTO> Exercicios { get; set; }
 
-        public virtual DbSet<TreinoDiasDTO> TreinoDias { get; set; }
-
         public virtual DbSet<SemanaUsuariosDTO> SemanaUsuarios { get; set; }
 
         public virtual DbSet<TreinosDTO> Treinos { get; set; }
+
+        public virtual DbSet<GruposDTO> Grupos { get; set; }
+
+        public virtual DbSet<IntervalosDTO> Intervalos { get; set; }
+
+        public virtual DbSet<SxRsDTO> SxRs { get; set; }
+
+        public virtual DbSet<TiposDTO> Tipos { get; set; }
+
+        public virtual DbSet<TreinoUsuariosDTO> TreinoUsuarios { get; set; }
     }
 }
