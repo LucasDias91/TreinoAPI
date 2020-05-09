@@ -25,7 +25,7 @@ namespace TreinoAPI.DTO.Treinos
 
         public  int IDSxR { get; set; }
 
-        public  int IDTecAvancada { get; set; }
+        public  Nullable<int> IDTecAvancada { get; set; }
 
         public int IDIntervalo { get; set; }
 

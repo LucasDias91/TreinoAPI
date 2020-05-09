@@ -13,6 +13,8 @@ namespace TreinoAPI.DTO.EVR.Treinos
 
         public DateTime DataInicio { get; set; }
 
+        public int IDTipo { get; set; }
+
         public int IDSemanaNovo { get; set; }
 
         public int IDSemanaDia { get; set; }

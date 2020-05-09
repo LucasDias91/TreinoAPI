@@ -62,7 +62,8 @@ namespace TreinoAPI.Controllers
 
             try
             {
-                int _IDUsuario = User.Identity.GetIDUsuario();
+               // int _IDUsuario = User.Identity.GetIDUsuario();
+                int _IDUsuario = 1;
 
                 TreinoSemanaInsert = TreinosEVR.InsertTreinoSemanaEVR(_IDUsuario, TreinoSemanaAdd, TreinosDAO);
 
@@ -71,7 +72,7 @@ namespace TreinoAPI.Controllers
                     return BadRequest(TreinoSemanaInsert.Msg);
                 }
 
-                TreinosDAO.InsertTreinoSemanas(_IDUsuario, TreinoSemanaInsert.DataInicio, TreinoSemanaInsert.IDSemana, TreinoSemanaAdd.IDSemanaDia);
+                TreinosDAO.InsertTreinoSemanas(_IDUsuario, TreinoSemanaInsert.DataInicio, TreinoSemanaInsert.IDSemana, TreinoSemanaAdd.IDSemanaDia, TreinoSemanaInsert.IDTipo);
             }
             catch(Exception ex)
             {
@@ -106,7 +107,7 @@ namespace TreinoAPI.Controllers
                     return BadRequest(TreinoSemanaUpdate.Msg);
                 }
 
-                TreinosDAO.UpdateTreinoSemanas(_IDUsuario, TreinoSemanaUpdate.DataInicio, TreinoSemanaEdit.IDSemana, TreinoSemanaUpdate.IDSemanaNovo, TreinoSemanaEdit.TreinoUsuarioEdit);
+                TreinosDAO.UpdateTreinoSemanas(_IDUsuario, TreinoSemanaUpdate.DataInicio, TreinoSemanaEdit.IDSemana, TreinoSemanaUpdate.IDSemanaNovo, TreinoSemanaEdit.TreinoUsuarioEdit, TreinoSemanaUpdate.IDTipo);
 
             }
             catch (Exception ex)

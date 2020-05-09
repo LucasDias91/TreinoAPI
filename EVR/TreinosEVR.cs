@@ -48,7 +48,9 @@ namespace TreinoAPI.EVR
             List<SemanaUsuariosDTO> _SemanasUsuarios = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(IDUsuario);
             var Semanas = _Semanas.Where(item => !_SemanasUsuarios.Any(item2 => item2.IDSemana == item.IDSemana));
             int _IDSemana = Semanas.Min((semana) => semana.IDSemana);
+            int _IDTipo = TreinosDAO.SelectTreinosPorIDSemana(_IDSemana).FirstOrDefault().IDTipo;
 
+            _TreinoSemanaInsert.IDTipo = _IDTipo;
             _TreinoSemanaInsert.DataInicio = DataInicio;
             _TreinoSemanaInsert.IDSemana = _IDSemana;
             return _TreinoSemanaInsert;
@@ -118,7 +120,9 @@ namespace TreinoAPI.EVR
             List<SemanaUsuariosDTO> _SemanasUsuarios = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(IDUsuario);
             var SemanasNSelecionadas = _Semanas.Where(item => !_SemanasUsuarios.Any(item2 => item2.IDSemana == item.IDSemana));
             int _IDSemanaNovo = SemanasNSelecionadas.Min((semana) => semana.IDSemana);
+            int _IDTipo = TreinosDAO.SelectTreinosPorIDSemana(_IDSemanaNovo).FirstOrDefault().IDTipo;
 
+            _TreinoSemanaUpdate.IDTipo = _IDTipo;
             _TreinoSemanaUpdate.DataInicio = DataInicio;
             _TreinoSemanaUpdate.IDSemanaNovo = _IDSemanaNovo;
 

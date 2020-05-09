@@ -15,6 +15,8 @@ namespace TreinoAPI.DTO.Treinos
 
         public int IDUsuario { get; set; }
 
+        public int IDTipo { get; set; }
+
         public int IDSemana { get; set; }
 
         public DateTime DataInicio { get; set; }
