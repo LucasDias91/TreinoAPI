@@ -21,10 +21,10 @@ namespace TreinoAPI.DTO.Treinos
 
         public DateTime DataFim { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public Nullable<DateTime> CreationDate { get; set; }
 
-        public DateTime LastEditDate { get; set; }
+        public Nullable<DateTime> LastEditDate { get; set; }
 
-        public bool Ativo { get; set; }
+        public bool Ativo { get; set; } = true;
     }
 }

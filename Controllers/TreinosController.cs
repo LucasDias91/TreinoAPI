@@ -14,7 +14,8 @@ namespace TreinoAPI.Controllers
     public class TreinosController : ControllerBase
     {
         [HttpPost]
-        [Route("Treino")]
+        [AllowAnonymous]
+        [Route("Treino/Semana")]
         public IActionResult PostTreino([FromBody] TreinoAddDTO TreinoAdd,
                                         [FromServices] TreinosDAO TreinosDAO)
         {
@@ -24,7 +25,8 @@ namespace TreinoAPI.Controllers
             }
             try
             {
-                int _IDUsuario = User.Identity.GetIDUsuario(); 
+                //int _IDUsuario = User.Identity.GetIDUsuario(); 
+                int _IDUsuario = 1;
 
                 List<SemanaUsuariosDTO> _SemanaUsuario = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(_IDUsuario);
 
@@ -38,20 +40,20 @@ namespace TreinoAPI.Controllers
                     List<SemanaUsuariosDTO> _SemanasUsuarios = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(_IDUsuario);
                     var Semanas = _Semanas.Where(item => !_SemanasUsuarios.Any(item2 => item2.IDSemana == item.IDSemana));
                     int _IDSemana = Semanas.Min((semana) => semana.IDSemana);
-                    TreinosDAO.InsertTreino(_IDUsuario, TreinoAdd.DataInicio, _IDSemana);
+                    TreinosDAO.InsertTreinoSemanas(_IDUsuario, TreinoAdd.DataInicio, _IDSemana);
                 }
 
             }
             catch(Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.InnerException);
             }
 
             return Ok();
         }
 
         [HttpPut]
-        [Route("Treino")]
+        [Route("Treino/Semana")]
         [AllowAnonymous]
         public IActionResult PutTreino([FromBody] TreinoEditDTO TreinoAdd,
                                        [FromServices] TreinosDAO TreinosDAO)
@@ -76,7 +78,7 @@ namespace TreinoAPI.Controllers
                     List<SemanaUsuariosDTO> _SemanasUsuarios = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(_IDUsuario);
                     var Semanas = _Semanas.Where(item => !_SemanasUsuarios.Any(item2 => item2.IDSemana == item.IDSemana));
                     int _IDSemana = Semanas.Min((semana) => semana.IDSemana);
-                    TreinosDAO.InsertTreino(_IDUsuario, TreinoAdd.DataInicio, _IDSemana);
+                    //TreinosDAO.InsertTreino(_IDUsuario, TreinoAdd.DataInicio, _IDSemana);
                 }
 
             }

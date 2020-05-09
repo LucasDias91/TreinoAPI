@@ -31,11 +31,33 @@ namespace TreinoAPI.DAO
             return DbTreino.SemanaUsuarios.Where((usuario) => usuario.IDUsuario == IDUsuario).ToList();
         }
 
-        public void InsertTreino(int IDUsuario, DateTime DataInicio, int IDSemana)
+        public void InsertTreinoSemanas(int IDUsuario, DateTime DataInicio, int IDSemana)
         {
             try
             {
                 SemanaUsuariosDTO _SemanaUsuarioAdd = PrepareSemanaUsuario(IDUsuario, DataInicio, IDSemana);
+                List<TreinoUsuariosDTO> _TreinoUsuarios = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana).ToList();
+                _TreinoUsuarios.ForEach((item) => item.Ativo = true);
+                DbTreino.UpdateRange(_TreinoUsuarios);
+                DbTreino.Add(_SemanaUsuarioAdd);
+
+            }
+            catch
+            {
+                throw;
+            }
+
+            DbTreino.SaveChanges();
+        }
+
+        public void UpdateTreinoSemanas(int IDUsuario, DateTime DataInicio, int IDSemana)
+        {
+            try
+            {
+                SemanaUsuariosDTO _SemanaUsuarioAdd = PrepareSemanaUsuario(IDUsuario, DataInicio, IDSemana);
+                List<TreinoUsuariosDTO> _TreinoUsuarios = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana && item.Ativo).ToList();
+                _TreinoUsuarios.ForEach((item) => item.Ativo = true);
+                DbTreino.UpdateRange(_TreinoUsuarios);
                 DbTreino.Add(_SemanaUsuarioAdd);
 
             }
