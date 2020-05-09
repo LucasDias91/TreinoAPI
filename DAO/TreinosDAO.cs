@@ -43,6 +43,59 @@ namespace TreinoAPI.DAO
                            .ToList();
         }
 
+        public Object SelectTreino(int IDUsuario)
+        {
+            return DbTreino.SemanaUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.Ativo == true)
+                                          .Select((item)=> new
+                                          {
+                                              item.IDSemana,
+                                              item.DataInicio,
+                                              item.DataFim,
+                                              Treinos = SelectTreinoSemana(IDUsuario)
+                                          }).ToList();
+
+        }
+
+        private Object SelectTreinoSemana(int IDUsuario)
+        {
+    
+            var TreinoUsuarios = DbTreino.TreinoUsuarios.Where((treino) => treino.IDUsuario == IDUsuario && treino.Ativo == true)
+                                                       .ToList();
+
+            var Divisoes = DbTreino.Divisoes.Where((divisao) => divisao.Ativo == true)
+                                            .ToList();
+
+            var Treinos = DbTreino.Treinos.Where((treino) => treino.Ativo == true)
+                                          .ToList();
+
+            var Grupos = DbTreino.Grupos.Where((grupo) => grupo.Ativo == true)
+                                        .ToList();
+
+            var SemanaDias = DbTreino.SemanaDias.Where((grupo) => grupo.Ativo == true)
+                                                .ToList();
+
+
+            return (from TreinoUsuario in TreinoUsuarios
+                    join SemanaDia in SemanaDias on TreinoUsuario.IDSemanaDia equals SemanaDia.IDSemanaDia
+                    join Divisao in Divisoes on TreinoUsuario.IDDivisao equals Divisao.IDDivisao
+                    into temp
+                    from Divisao in temp.DefaultIfEmpty()
+                    select new
+                    {
+                        SemanaDia.IDSemanaDia,
+                        SemanaDia.SemanaDia,
+                        Divisao.IDDivisao,
+                        Divisao.Divisao,
+                        Grupos = (
+                        (from Treino in Treinos.Where((treino) => TreinoUsuario.IDSemana == treino.IDSemana && Divisao.IDDivisao == treino.IDDivisao)
+                         join Grupo in Grupos on Treino.IDGrupo equals Grupo.IDGrupo
+                         into temp2
+                         from Grupo in temp2.DefaultIfEmpty()
+                         select Grupo.Grupo).Distinct())
+                    }).Distinct();
+        }
+
+
         public void InsertTreinoSemanas(int IDUsuario, DateTime DataInicio, int IDSemana, int IDSemanaDia)
         {
             try

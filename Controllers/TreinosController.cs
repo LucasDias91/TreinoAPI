@@ -7,6 +7,7 @@ using TreinoAPI.DTO.EVR;
 using TreinoAPI.DTO.EVR.Treinos;
 using TreinoAPI.DTO.Treinos;
 using TreinoAPI.EVR;
+using TreinoAPI.Helpers;
 
 namespace TreinoAPI.Controllers
 {
@@ -14,6 +15,37 @@ namespace TreinoAPI.Controllers
     [ApiController]
     public class TreinosController : ControllerBase
     {
+
+        [HttpGet]
+        [Route("Treino")]
+        [AllowAnonymous]
+        public IActionResult GetTreino([FromQuery] ParamsDTO Params,
+                                              [FromServices] TreinosDAO TreinosDAO)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Object _Result = new Object();
+
+            try
+            {
+                // int _IDUsuario = User.Identity.GetIDUsuario();
+
+                int _IDUsuario = 1;
+
+                _Result = TreinosDAO.SelectTreino(_IDUsuario);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException);
+            }
+
+            return Ok(_Result);
+        }
+
         [HttpPost]
         [Route("Treino/Semana")]
         [AllowAnonymous]
