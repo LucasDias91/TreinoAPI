@@ -87,6 +87,9 @@ namespace TreinoAPI.DAO
             var SemanaDias = DbTreino.SemanaDias.Where((grupo) => grupo.Ativo == true)
                                                 .ToList();
 
+            var Intervalos = DbTreino.Intervalos.Where((intervalo) => intervalo.Ativo == true)
+                                       .ToList();
+
 
             return (from TreinoUsuario in TreinoUsuarios
                     join SemanaDia in SemanaDias on TreinoUsuario.IDSemanaDia equals SemanaDia.IDSemanaDia
@@ -98,9 +101,17 @@ namespace TreinoAPI.DAO
                         SemanaDia.SemanaDia,
                         Divisao.Divisao,
                         QtdExercicios = Treinos.Where((treino) => TreinoUsuario.IDSemana == treino.IDSemana && Divisao.IDDivisao == treino.IDDivisao).Count(),
+                        Intervalo = GetIntervalo(Treinos, Intervalos, TreinoUsuario.IDSemana, Divisao.IDDivisao),
                         Grupos = GetGrupos(TreinoUsuario.IDSemana, Divisao.IDDivisao),
                         Exercicios = GetExercicios(TreinoUsuario.IDSemana, Divisao.IDDivisao)
                     }).Distinct();
+        }
+
+        private string GetIntervalo(List<TreinosDTO> Treinos, List<IntervalosDTO> Intervalos, int IDSemana, int IDDivisao)
+        {
+            
+            int IDIntervalo = Treinos.Where((treino) => treino.IDSemana == IDSemana && treino.IDDivisao == IDDivisao && treino.Ativo == true).FirstOrDefault().IDIntervalo;
+            return Intervalos.Where((item) => item.Ativo == true && item.IDIntervalo == IDIntervalo).FirstOrDefault().Intervalo;
         }
 
         private string[] GetGrupos(int IDSemana, int IDDivisao)

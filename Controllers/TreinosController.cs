@@ -5,6 +5,7 @@ using TreinoAPI.Claims;
 using TreinoAPI.DAO;
 using TreinoAPI.DTO.EVR;
 using TreinoAPI.DTO.EVR.Treinos;
+using TreinoAPI.DTO.Helpers;
 using TreinoAPI.DTO.Treinos;
 using TreinoAPI.EVR;
 using TreinoAPI.Helpers;
@@ -29,6 +30,7 @@ namespace TreinoAPI.Controllers
             }
 
             Object _Result = new Object();
+            ResultadoDTO _Resultado = new ResultadoDTO();
 
             try
             {
@@ -37,13 +39,14 @@ namespace TreinoAPI.Controllers
                 int _IDUsuario = 1;
 
                 _Result = TreinosDAO.SelectTreino(_IDUsuario);
+                _Resultado = ResultadoHelper.PreparaResultado(_Result);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.InnerException);
             }
 
-            return Ok(_Result);
+            return Ok(_Resultado);
         }
 
         [HttpPost]

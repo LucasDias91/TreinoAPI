@@ -6,12 +6,12 @@ using TreinoAPI.DTO.Helpers;
 
 namespace TreinoAPI.Helpers
 {
-    public class ResultadoHelper
+    public static class ResultadoHelper
     {
-        public ResultadoDTO PreparaResultado(Object Dados)
+        public static ResultadoDTO PreparaResultado(Object Dados)
         {
             ResultadoDTO _Resultado = new ResultadoDTO();
-            _Resultado.DataAtualizacao = DateTime.Now;
+            _Resultado.DataAtualizacao = DateTime.UtcNow;
             _Resultado.Dados = Dados;
             return _Resultado;
         }

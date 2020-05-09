@@ -22,7 +22,6 @@ namespace TreinoAPI.Controllers
                                                [FromQuery] ParamsDTO Params)
         {
 
-            ResultadoHelper _ResultadoHelper = new ResultadoHelper();
             ResultadoDTO _Resultado = new ResultadoDTO();
             int _IDUsuario = User.Identity.GetIDUsuario();
 
@@ -30,7 +29,7 @@ namespace TreinoAPI.Controllers
             {
                
                List<UsuarioDisplayDTO> _UsuarioDisplay = _UsuariosDAO.SelectUsuarioDisplay(_IDUsuario, Params.DataAtualizacao);
-                _Resultado = _ResultadoHelper.PreparaResultado(_UsuarioDisplay);
+                _Resultado = ResultadoHelper.PreparaResultado(_UsuarioDisplay);
             }
             catch (Exception ex)
             {
