@@ -112,13 +112,18 @@ namespace TreinoAPI.DAO
                     select new
                     {
                         Exercicio.Exercicio,
-                        SxR.SxR,
+                        SxR = FormatSxR(SxR.SxR),
                         TecAvancada.TecAvancada
 
                     }).Distinct();
 
         }
 
+        private string FormatSxR(string SxR)
+        {
+            string[] SxRs = SxR.Split('x');
+            return SxRs.First() + " séries de " + SxRs.Last() + " repetições";
+        }
 
         public void InsertTreinoSemanas(int IDUsuario, DateTime DataInicio, int IDSemana, int IDSemanaDia)
         {
