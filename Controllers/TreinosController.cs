@@ -19,7 +19,6 @@ namespace TreinoAPI.Controllers
 
         [HttpGet]
         [Route("Treino")]
-        [AllowAnonymous]
         public IActionResult GetTreino([FromQuery] ParamsDTO Params,
                                               [FromServices] TreinosDAO TreinosDAO)
         {
@@ -34,10 +33,7 @@ namespace TreinoAPI.Controllers
 
             try
             {
-                // int _IDUsuario = User.Identity.GetIDUsuario();
-
-                int _IDUsuario = 1;
-
+                 int _IDUsuario = User.Identity.GetIDUsuario();
                 _Result = TreinosDAO.SelectTreino(_IDUsuario);
                 _Resultado = ResultadoHelper.PreparaResultado(_Result);
             }
@@ -51,7 +47,6 @@ namespace TreinoAPI.Controllers
 
         [HttpPost]
         [Route("Treino/Semana")]
-        [AllowAnonymous]
         public IActionResult PostTreinoSemana([FromBody] TreinoSemanaAddDTO TreinoSemanaAdd,
                                               [FromServices] TreinosDAO TreinosDAO)
         {
@@ -65,8 +60,7 @@ namespace TreinoAPI.Controllers
 
             try
             {
-               // int _IDUsuario = User.Identity.GetIDUsuario();
-                int _IDUsuario = 1;
+                int _IDUsuario = User.Identity.GetIDUsuario();
 
                 TreinoSemanaInsert = TreinosEVR.InsertTreinoSemanaEVR(_IDUsuario, TreinoSemanaAdd, TreinosDAO);
 
