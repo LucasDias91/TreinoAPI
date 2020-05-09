@@ -124,15 +124,13 @@ namespace TreinoAPI.DAO
             return _grupos.Split(" + ");
         }
 
-
-
         private Object GetExercicios(int IDSemana, int IDDivisao)
         {
 
             var Treinos = DbTreino.Treinos.Where((treino) => treino.IDSemana == IDSemana && treino.IDDivisao == IDDivisao && treino.Ativo == true) ;
             var Exercicios = DbTreino.Exercicios.Where((exercicio) => exercicio.Ativo == true);
             var SxRs = DbTreino.SxRs.Where((sxr) => sxr.Ativo == true);
-            var TecAvancadas = DbTreino.TecAvancadas.Where((tec) => tec.Ativo == true);
+            var TecAvancadas = DbTreino.TecAvancadas.Where((tec) => tec.Ativo == true).ToList();
 
             return (from Treino in Treinos
                     join SxR in SxRs on Treino.IDSxR equals SxR.IDSxR
@@ -142,7 +140,8 @@ namespace TreinoAPI.DAO
                     select new
                     {
                         Exercicio.Exercicio,
-                        SxR = FormatSxR(SxR.SxR)
+                        SxR = FormatSxR(SxR.SxR),
+                        TecAvancada = GetTecAvancada(Treino.IDTecAvancada, TecAvancadas)
 
                     }).Distinct();
 
@@ -152,6 +151,17 @@ namespace TreinoAPI.DAO
         {
             string[] SxRs = SxR.Split('x');
             return SxRs.First() + " séries de " + SxRs.Last() + " repetições";
+        }
+
+        private string GetTecAvancada(Nullable<int> IDTecAvancada, List<TecAvancadasDTO> TecAvancadas)
+        {
+
+            if(IDTecAvancada == null)
+            {
+                return null;
+            }
+
+            return TecAvancadas.Where((tec) => tec.Ativo == true && tec.IDTecAvancada == IDTecAvancada).FirstOrDefault().TecAvancada;
         }
 
         public void InsertTreinoSemanas(int IDUsuario, DateTime DataInicio, int IDSemana, int IDSemanaDia, int IDTipo)
