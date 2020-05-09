@@ -15,6 +15,8 @@ namespace TreinoAPI.DTO.Treinos
 
         public int IDUsuario { get; set; }
 
+        public Nullable<int> IDSemanaDia { get; set; }
+
         public int IDSemana { get; set; }
 
         public int IDDivisao { get; set; }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    public class TreinoDiasEditDTO
+    public class TreinoUsuarioEditDTO
     {
         [Required]
-        public Nullable<int> IDTreinoDia { get; set; }
+        public Nullable<int> IDSemanaDia { get; set; }
 
         [Required]
         public Nullable<bool> Executado { get; set; }

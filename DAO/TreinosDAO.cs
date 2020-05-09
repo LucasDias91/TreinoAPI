@@ -31,13 +31,40 @@ namespace TreinoAPI.DAO
             return DbTreino.SemanaUsuarios.Where((usuario) => usuario.IDUsuario == IDUsuario).ToList();
         }
 
-        public void InsertTreinoSemanas(int IDUsuario, DateTime DataInicio, int IDSemana)
+        public SemanaDiasDTO SelectSemanaDiaPorIDSemana(int IDSemanaDia)
+        {
+            return DbTreino.SemanaDias.Where((semana) => semana.IDSemanaDia == IDSemanaDia).FirstOrDefault();
+        }
+
+        public List<TreinoUsuariosDTO> SelectTreinoUsuariosPorIDUsuarioAndIDSemana(int IDUsuario, int IDSemana)
+        {
+            return DbTreino.TreinoUsuarios
+                           .Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana)
+                           .ToList();
+        }
+
+        public void InsertTreinoSemanas(int IDUsuario, DateTime DataInicio, int IDSemana, int IDSemanaDia)
         {
             try
             {
                 SemanaUsuariosDTO _SemanaUsuarioAdd = PrepareSemanaUsuario(IDUsuario, DataInicio, IDSemana);
                 List<TreinoUsuariosDTO> _TreinoUsuarios = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana).ToList();
-                _TreinoUsuarios.ForEach((item) => item.Ativo = true);
+
+                int _IDSemanaDia = IDSemanaDia;
+                _TreinoUsuarios.ForEach((item) => 
+                {
+                    item.IDSemanaDia = _IDSemanaDia;
+                    item.Ativo = true;
+                    if(_IDSemanaDia == 7)
+                    {
+                        _IDSemanaDia = 1;
+                    }
+                    else
+                    {
+                        _IDSemanaDia = _IDSemanaDia + 1;
+                    }
+                });
+
                 DbTreino.UpdateRange(_TreinoUsuarios);
                 DbTreino.Add(_SemanaUsuarioAdd);
 
@@ -50,14 +77,27 @@ namespace TreinoAPI.DAO
             DbTreino.SaveChanges();
         }
 
-        public void UpdateTreinoSemanas(int IDUsuario, DateTime DataInicio, int IDSemana)
+        public void UpdateTreinoSemanas(int IDUsuario, DateTime DataInicio,int IDSemana, int IDSemanaNovo, List<TreinoUsuarioEditDTO> TreinoDias)
         {
             try
             {
-                SemanaUsuariosDTO _SemanaUsuarioAdd = PrepareSemanaUsuario(IDUsuario, DataInicio, IDSemana);
-                List<TreinoUsuariosDTO> _TreinoUsuarios = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana && item.Ativo).ToList();
-                _TreinoUsuarios.ForEach((item) => item.Ativo = true);
-                DbTreino.UpdateRange(_TreinoUsuarios);
+                SemanaUsuariosDTO _SemanaUsuarioAdd = PrepareSemanaUsuario(IDUsuario, DataInicio, IDSemanaNovo);
+                List<TreinoUsuariosDTO> _TreinoUsuariosAntigo = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana).ToList();
+                _TreinoUsuariosAntigo.ForEach((item) => 
+                {
+                    item.Executado = TreinoDias.Where((treino) => treino.IDSemanaDia == item.IDSemanaDia).FirstOrDefault().Executado;
+                    item.Ativo = false;
+                });
+
+                SemanaUsuariosDTO _SemanaUsuario = DbTreino.SemanaUsuarios.Where((semana) => semana.IDUsuario == IDUsuario && semana.IDSemana == IDSemana).FirstOrDefault();
+                _SemanaUsuario.Ativo = false;
+
+                List<TreinoUsuariosDTO> _TreinoUsuariosNovo = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemanaNovo).ToList();
+                _TreinoUsuariosNovo.ForEach((item) => item.Ativo = true);
+
+                DbTreino.Update(_SemanaUsuario);
+                DbTreino.UpdateRange(_TreinoUsuariosAntigo);
+                DbTreino.UpdateRange(_TreinoUsuariosNovo);
                 DbTreino.Add(_SemanaUsuarioAdd);
 
             }

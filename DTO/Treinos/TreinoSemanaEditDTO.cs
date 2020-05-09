@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    public class TreinoEditDTO
+    public class TreinoSemanaEditDTO
     {
         [Required]
-        public DateTime DataInicio { get; set; }
+        public int IDSemanaDia { get; set; }
 
         [Required]
-        public List<TreinoDiasEditDTO> TreinoDias { get; set; }
+        public int IDSemana { get; set; }
+
+
+        [Required]
+        public List<TreinoUsuarioEditDTO> TreinoUsuarioEdit { get; set; }
  
     }
 }

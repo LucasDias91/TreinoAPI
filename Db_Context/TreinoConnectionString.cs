@@ -39,5 +39,7 @@ namespace TreinoAPI.Db_Context
         public virtual DbSet<TiposDTO> Tipos { get; set; }
 
         public virtual DbSet<TreinoUsuariosDTO> TreinoUsuarios { get; set; }
+
+        public virtual DbSet<SemanaDiasDTO> SemanaDias { get; set; }
     }
 }

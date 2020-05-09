@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TreinoAPI.DTO.Treinos
 {
-    public class TreinoAddDTO
+    public class TreinoSemanaAddDTO
     {
         [Required]
-        public DateTime DataInicio { get; set; }
+        public int IDSemanaDia { get; set; }
     }
 }
