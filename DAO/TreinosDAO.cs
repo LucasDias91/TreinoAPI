@@ -51,12 +51,12 @@ namespace TreinoAPI.DAO
                                               item.IDSemana,
                                               item.DataInicio,
                                               item.DataFim,
-                                              Treinos = SelectTreinoSemana(IDUsuario)
+                                              Treinos = SelectTreinos(IDUsuario)
                                           }).ToList();
 
         }
 
-        private Object SelectTreinoSemana(int IDUsuario)
+        private Object SelectTreinos(int IDUsuario)
         {
     
             var TreinoUsuarios = DbTreino.TreinoUsuarios.Where((treino) => treino.IDUsuario == IDUsuario && treino.Ativo == true)
@@ -82,17 +82,41 @@ namespace TreinoAPI.DAO
                     from Divisao in temp.DefaultIfEmpty()
                     select new
                     {
-                        SemanaDia.IDSemanaDia,
                         SemanaDia.SemanaDia,
-                        Divisao.IDDivisao,
                         Divisao.Divisao,
+                        QtdExercicios = Treinos.Where((treino) => TreinoUsuario.IDSemana == treino.IDSemana && Divisao.IDDivisao == treino.IDDivisao).Count(),
                         Grupos = (
                         (from Treino in Treinos.Where((treino) => TreinoUsuario.IDSemana == treino.IDSemana && Divisao.IDDivisao == treino.IDDivisao)
                          join Grupo in Grupos on Treino.IDGrupo equals Grupo.IDGrupo
                          into temp2
                          from Grupo in temp2.DefaultIfEmpty()
-                         select Grupo.Grupo).Distinct())
+                         select Grupo.Grupo).Distinct()),
+                         Exercicios = SelectExercicios(TreinoUsuario.IDSemana, Divisao.IDDivisao)
                     }).Distinct();
+        }
+
+        private Object SelectExercicios(int IDSemana, int IDDivisao)
+        {
+
+            var Treinos = DbTreino.Treinos.Where((treino) => treino.IDSemana == IDSemana && treino.IDDivisao == IDDivisao && treino.Ativo == true) ;
+            var Exercicios = DbTreino.Exercicios.Where((exercicio) => exercicio.Ativo == true);
+            var SxRs = DbTreino.SxRs.Where((sxr) => sxr.Ativo == true);
+            var TecAvancadas = DbTreino.TecAvancadas.Where((tec) => tec.Ativo == true);
+
+            return (from Treino in Treinos
+                    join SxR in SxRs on Treino.IDSxR equals SxR.IDSxR
+                    join TecAvancada in TecAvancadas on Treino.IDTecAvancada equals TecAvancada.IDTecAvancada
+                    join Exercicio in Exercicios on Treino.IDExercicio equals Exercicio.IDExercicio
+                    into temp
+                    from Exercicio in temp.DefaultIfEmpty()
+                    select new
+                    {
+                        Exercicio.Exercicio,
+                        SxR.SxR,
+                        TecAvancada.TecAvancada
+
+                    }).Distinct();
+
         }
 
 
