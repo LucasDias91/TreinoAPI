@@ -16,7 +16,7 @@ namespace TreinoAPI.DAO
         {
             DbTreino.Database.ExecuteSqlCommand("Insert Into TreinoUsuarios (IDUsuario,IDSemana, IDDivisao, Executado, Ativo)" +
                                                 " Select Distinct @IDUsuario, Semana.IDSemana, Divisao.IDDivisao, null, 0 from Treino$ as Treino" +
-                                                " inner Join Semanas as Semana on Semana.IDSemana = Treino.Ciclo" +
+                                                " inner Join Semanas as Semana on Semana.IDSemana = Treino.Semana" +
                                                 " inner join Divisoes as Divisao on Treino.Divisao = Divisao.Divisao",
                                                  new SqlParameter("@IDUsuario", IDUsuario));
         }
@@ -100,6 +100,7 @@ namespace TreinoAPI.DAO
                     {
                         SemanaDia.SemanaDia,
                         Divisao.Divisao,
+                        TreinoUsuario.Executado,
                         QtdExercicios = Treinos.Where((treino) => TreinoUsuario.IDSemana == treino.IDSemana && Divisao.IDDivisao == treino.IDDivisao).Count(),
                         Intervalo = GetIntervalo(Treinos, Intervalos, TreinoUsuario.IDSemana, Divisao.IDDivisao),
                         Grupos = GetGrupos(TreinoUsuario.IDSemana, Divisao.IDDivisao),

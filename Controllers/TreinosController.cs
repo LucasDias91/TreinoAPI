@@ -18,7 +18,7 @@ namespace TreinoAPI.Controllers
     {
 
         [HttpGet]
-        [Route("Treino")]
+        [Route("Treino/Semana")]
         public IActionResult GetTreino([FromQuery] ParamsDTO Params,
                                               [FromServices] TreinosDAO TreinosDAO)
         {

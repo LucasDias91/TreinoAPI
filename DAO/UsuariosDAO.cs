@@ -55,6 +55,8 @@ namespace TreinoAPI.DAO
 
             _usuario.Nome = Register.FirstName;
             _usuario.Sobrenome = Register.LastName;
+            _usuario.DataNasc = Register.BirthDate;
+            _usuario.Sexo = Register.Gender;
             _usuario.Email = Register.Email;
             _usuario.Senha = Register.Password;
             return _usuario;

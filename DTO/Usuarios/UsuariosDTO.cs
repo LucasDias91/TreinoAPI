@@ -51,5 +51,9 @@ namespace TreinoAPI.DTO.Usuarios
 
         public Nullable<DateTime> LastEditDate { get; set; }
 
+        public Nullable<DateTime> DataNasc { get; set; }
+        
+        public string Sexo { get; set; }
+
     }
 }
