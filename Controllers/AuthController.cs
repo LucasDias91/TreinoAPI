@@ -117,7 +117,6 @@ namespace TreinoAPI.Controllers
                 }
 
                 int _IDUsuario = usuariosDAO.InsertUsuario(Register);
-                treinosDAO.PopulaTreinoUsuarios(_IDUsuario);
 
             }
             catch (Exception ex)

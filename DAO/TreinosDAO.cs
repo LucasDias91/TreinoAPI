@@ -14,10 +14,12 @@ namespace TreinoAPI.DAO
 
         public void PopulaTreinoUsuarios(int IDUsuario)
         {
-            DbTreino.Database.ExecuteSqlCommand("Insert Into TreinoUsuarios (IDUsuario,IDSemana, IDDivisao, Executado, Ativo)" +
-                                                " Select Distinct @IDUsuario, Semana.IDSemana, Divisao.IDDivisao, null, 0 from Treino$ as Treino" +
+            DbTreino.Database.ExecuteSqlCommand("Insert Into TreinoUsuarios (IDUsuario,IDSemana, IDDivisao, Executado, TempoTreino, Ativo)" +
+                                                " Select Distinct @IDUsuario, Semana.IDSemana, Divisao.IDDivisao, 0, 0, 0 from Treino$ as Treino" +
                                                 " inner Join Semanas as Semana on Semana.IDSemana = Treino.Semana" +
-                                                " inner join Divisoes as Divisao on Treino.Divisao = Divisao.Divisao",
+                                                " inner join Divisoes as Divisao on Treino.Divisao = Divisao.Divisao" +
+                                                " where Semana.IDSemana not in (Select distinct IDSemana from TreinoUsuarios aa where aa.idUsuario = @idUsuario ) and" +
+                                                " Divisao.IDDivisao not in (Select distinct IDDivisao from TreinoUsuarios aa where aa.idUsuario = @idUsuario )",
                                                  new SqlParameter("@IDUsuario", IDUsuario));
         }
 
@@ -39,6 +41,13 @@ namespace TreinoAPI.DAO
         public SemanaDiasDTO SelectSemanaDiaPorIDSemana(int IDSemanaDia)
         {
             return DbTreino.SemanaDias.Where((semana) => semana.IDSemanaDia == IDSemanaDia).FirstOrDefault();
+        }
+
+        public List<SemanaDiasDTO> SelectSemanaDias()
+        {
+            return DbTreino.SemanaDias
+                           .Where((semana) => semana.Ativo == true)
+                           .ToList();
         }
 
         public List<TreinoUsuariosDTO> SelectTreinoUsuariosPorIDUsuarioAndIDSemana(int IDUsuario, int IDSemana)
@@ -180,11 +189,23 @@ namespace TreinoAPI.DAO
         {
             try
             {
+                PopulaTreinoUsuarios(IDUsuario);
+
                 SemanaUsuariosDTO _SemanaUsuarioAdd = PrepareSemanaUsuario(IDUsuario, DataInicio, IDSemana, IDTipo);
-                List<TreinoUsuariosDTO> _TreinoUsuarios = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana).ToList();
+                List<TreinoUsuariosDTO> _TreinoUsuarios = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario).ToList();
+                List<SemanaUsuariosDTO> _SemanaUsuarios = DbTreino.SemanaUsuarios.Where((item) => item.IDUsuario == IDUsuario).ToList();
+
+                _SemanaUsuarios.ForEach((item) => item.Ativo = false);
+
+                List<TreinoUsuariosDTO> _TreinoUsuariosAntigo = _TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.Ativo == true).ToList();
+
+                _TreinoUsuariosAntigo.ForEach((item) => item.Ativo = false );
+
+
+                List<TreinoUsuariosDTO> _TreinoUsuariosNovo = _TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana).ToList();
 
                 int _IDSemanaDia = IDSemanaDia;
-                _TreinoUsuarios.ForEach((item) => 
+                _TreinoUsuariosNovo.ForEach((item) => 
                 {
                     item.IDSemanaDia = _IDSemanaDia;
                     item.Ativo = true;
@@ -198,7 +219,9 @@ namespace TreinoAPI.DAO
                     }
                 });
 
-                DbTreino.UpdateRange(_TreinoUsuarios);
+                DbTreino.UpdateRange(_TreinoUsuariosAntigo);
+                DbTreino.UpdateRange(_TreinoUsuariosNovo);
+                DbTreino.UpdateRange(_SemanaUsuarios);
                 DbTreino.Add(_SemanaUsuarioAdd);
 
             }

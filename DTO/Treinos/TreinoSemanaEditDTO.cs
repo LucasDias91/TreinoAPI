@@ -17,6 +17,6 @@ namespace TreinoAPI.DTO.Treinos
 
         [Required]
         public List<TreinoUsuarioEditDTO> TreinoUsuarioEdit { get; set; }
- 
+
     }
 }

@@ -28,20 +28,25 @@ namespace TreinoAPI.EVR
 
             DateTime DataInicio = _DateHelpers.GetNextDateForDay(TreinoSemanaAdd.IDSemanaDia);
 
-            List<SemanaUsuariosDTO> _SemanaUsuario = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(IDUsuario);
-
-            if (_SemanaUsuario.Count() > 0)
-            {
-                _TreinoSemanaInsert.Status = false;
-                _TreinoSemanaInsert.Msg = "Ciclo de treino já foi iniciado!";
-                return _TreinoSemanaInsert;
-            }
+            List<SemanaUsuariosDTO> _SemanaUsuarios = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(IDUsuario);
 
             if (DataInicio < DateTime.Now)
             {
                 _TreinoSemanaInsert.Status = false;
                 _TreinoSemanaInsert.Msg = "Data Inicio deve ser maior ou igual a data de hoje!";
                 return _TreinoSemanaInsert;
+            }
+
+            SemanaUsuariosDTO _SemanaUsuario = _SemanaUsuarios.Where((semana) => semana.IDUsuario == IDUsuario && semana.Ativo == true).FirstOrDefault();
+
+            if(_SemanaUsuario != null)
+            {
+                if (_SemanaUsuario.DataFim > DateTime.Now)
+                {
+                    _TreinoSemanaInsert.Status = false;
+                    _TreinoSemanaInsert.Msg = "Voce só poderá solicitar um novo treino a partir de: " + _SemanaUsuario.DataFim;
+                    return _TreinoSemanaInsert;
+                }
             }
 
             List<SemanasDTO> _Semanas = TreinosDAO.SelectSemanas();

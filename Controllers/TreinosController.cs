@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TreinoAPI.Claims;
@@ -76,7 +77,7 @@ namespace TreinoAPI.Controllers
                 return BadRequest(ex.InnerException);
             }
 
-            return Ok(TreinoSemanaInsert.Msg);
+            return Ok(TreinoSemanaInsert);
         }
 
         [HttpPut]
@@ -113,6 +114,33 @@ namespace TreinoAPI.Controllers
             }
 
             return Ok(TreinoSemanaUpdate.Msg);
+        }
+
+        [HttpGet]
+        [Route("Semana/Dias")]
+        public IActionResult GetSemanaDias([FromQuery] ParamsDTO Params,
+                                           [FromServices] TreinosDAO TreinosDAO)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            List<SemanaDiasDTO> _SemanaDias = new List<SemanaDiasDTO>();
+            ResultadoDTO _Resultado = new ResultadoDTO();
+
+            try
+            {
+                _SemanaDias = TreinosDAO.SelectSemanaDias();
+                _Resultado = ResultadoHelper.PreparaResultado(_SemanaDias);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException);
+            }
+
+            return Ok(_Resultado);
         }
 
     }
