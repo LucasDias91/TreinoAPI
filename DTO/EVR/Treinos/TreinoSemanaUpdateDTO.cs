@@ -11,12 +11,5 @@ namespace TreinoAPI.DTO.EVR.Treinos
 
         public string Msg { get; set; } = "Novo treino solicitado com sucesso!";
 
-        public DateTime DataInicio { get; set; }
-
-        public int IDTipo { get; set; }
-
-        public int IDSemanaNovo { get; set; }
-
-        public int IDSemanaDia { get; set; }
     }
 }

@@ -109,7 +109,10 @@ namespace TreinoAPI.DAO
                     {
                         SemanaDia.SemanaDia,
                         Divisao.Divisao,
+                        TreinoUsuario.IDTreinoUsuario,
                         TreinoUsuario.Executado,
+                        TreinoUsuario.TempoTreino,
+                        TreinoUsuario.DataExecucao,
                         QtdExercicios = Treinos.Where((treino) => TreinoUsuario.IDSemana == treino.IDSemana && Divisao.IDDivisao == treino.IDDivisao).Count(),
                         Intervalo = GetIntervalo(Treinos, Intervalos, TreinoUsuario.IDSemana, Divisao.IDDivisao),
                         Grupos = GetGrupos(TreinoUsuario.IDSemana, Divisao.IDDivisao),
@@ -233,28 +236,17 @@ namespace TreinoAPI.DAO
             DbTreino.SaveChanges();
         }
 
-        public void UpdateTreinoSemanas(int IDUsuario, DateTime DataInicio,int IDSemana, int IDSemanaNovo, List<TreinoUsuarioEditDTO> TreinoDias, int IDTipo)
+        public void UpdateTreinoSemanas(int IDUsuario, int IDTreinoUsuario,bool Executado, int TempoTreino, DateTime DataExecucao)
         {
             try
             {
-                SemanaUsuariosDTO _SemanaUsuarioAdd = PrepareSemanaUsuario(IDUsuario, DataInicio, IDSemanaNovo, IDTipo);
-                List<TreinoUsuariosDTO> _TreinoUsuariosAntigo = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemana).ToList();
-                _TreinoUsuariosAntigo.ForEach((item) => 
-                {
-                    item.Executado = TreinoDias.Where((treino) => treino.IDSemanaDia == item.IDSemanaDia).FirstOrDefault().Executado;
-                    item.Ativo = false;
-                });
-
-                SemanaUsuariosDTO _SemanaUsuario = DbTreino.SemanaUsuarios.Where((semana) => semana.IDUsuario == IDUsuario && semana.IDSemana == IDSemana).FirstOrDefault();
-                _SemanaUsuario.Ativo = false;
-
-                List<TreinoUsuariosDTO> _TreinoUsuariosNovo = DbTreino.TreinoUsuarios.Where((item) => item.IDUsuario == IDUsuario && item.IDSemana == IDSemanaNovo).ToList();
-                _TreinoUsuariosNovo.ForEach((item) => item.Ativo = true);
-
-                DbTreino.Update(_SemanaUsuario);
-                DbTreino.UpdateRange(_TreinoUsuariosAntigo);
-                DbTreino.UpdateRange(_TreinoUsuariosNovo);
-                DbTreino.Add(_SemanaUsuarioAdd);
+                TreinoUsuariosDTO _TreinoUsuario = DbTreino.TreinoUsuarios
+                                                           .Where((item) => item.IDTreinoUsuario == IDTreinoUsuario && item.IDUsuario == IDUsuario)
+                                                           .FirstOrDefault();
+                _TreinoUsuario.Executado = Executado;
+                _TreinoUsuario.TempoTreino = TempoTreino;
+                _TreinoUsuario.DataExecucao = DataExecucao;
+                DbTreino.Update(_TreinoUsuario);
 
             }
             catch
@@ -263,6 +255,14 @@ namespace TreinoAPI.DAO
             }
 
             DbTreino.SaveChanges();
+        }
+
+
+        public TreinoUsuariosDTO SelectTreinoUsuariosPorID(int IDUsuario, int IDTreinoUsuario)
+        {
+            return DbTreino.TreinoUsuarios
+                           .Where((item) => item.IDTreinoUsuario == IDTreinoUsuario && item.IDUsuario == IDUsuario)
+                           .FirstOrDefault();
         }
 
         public void UpdateTreino(int IDUsuario, DateTime DataInicio, int IDSemana, int IDTipo)

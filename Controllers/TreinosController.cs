@@ -82,7 +82,6 @@ namespace TreinoAPI.Controllers
 
         [HttpPut]
         [Route("Treino/Semana")]
-        [AllowAnonymous]
         public IActionResult PutTreinoSemana([FromBody] TreinoSemanaEditDTO TreinoSemanaEdit,
                                              [FromServices] TreinosDAO TreinosDAO)
         {
@@ -105,7 +104,7 @@ namespace TreinoAPI.Controllers
                     return BadRequest(TreinoSemanaUpdate.Msg);
                 }
 
-                TreinosDAO.UpdateTreinoSemanas(_IDUsuario, TreinoSemanaUpdate.DataInicio, TreinoSemanaEdit.IDSemana, TreinoSemanaUpdate.IDSemanaNovo, TreinoSemanaEdit.TreinoUsuarioEdit, TreinoSemanaUpdate.IDTipo);
+                TreinosDAO.UpdateTreinoSemanas(_IDUsuario, TreinoSemanaEdit.IDTreinoUsuario, TreinoSemanaEdit.Executado, TreinoSemanaEdit.TempoTreino, TreinoSemanaEdit.DataExecucao);
 
             }
             catch (Exception ex)
@@ -113,7 +112,7 @@ namespace TreinoAPI.Controllers
                 return BadRequest(ex);
             }
 
-            return Ok(TreinoSemanaUpdate.Msg);
+            return Ok(TreinoSemanaUpdate);
         }
 
         [HttpGet]

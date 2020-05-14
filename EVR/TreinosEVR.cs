@@ -65,71 +65,24 @@ namespace TreinoAPI.EVR
         {
             TreinoSemanaUpdateDTO _TreinoSemanaUpdate = new TreinoSemanaUpdateDTO();
 
-            List<SemanaUsuariosDTO> _SemanaUsuarios = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(IDUsuario);
+            TreinoUsuariosDTO _TreinoUsuarios = TreinosDAO.SelectTreinoUsuariosPorID(IDUsuario, TreinoSemanaEdit.IDTreinoUsuario);
 
-            SemanaDiasDTO _SemanaDias = TreinosDAO.SelectSemanaDiaPorIDSemana(TreinoSemanaEdit.IDSemanaDia);
-
-            if (_SemanaDias == null)
+            if (_TreinoUsuarios == null)
             {
                 _TreinoSemanaUpdate.Status = false;
-                _TreinoSemanaUpdate.Msg = "Dia da semana inválido!";
+                _TreinoSemanaUpdate.Msg = "Treino não existe!";
                 return _TreinoSemanaUpdate;
             }
 
-            if (_SemanaUsuarios.Count() == 0)
+            if (_TreinoUsuarios != null)
             {
-                _TreinoSemanaUpdate.Status = false;
-                _TreinoSemanaUpdate.Msg = "Ciclo de treino ainda não foi iniciado!";
-                return _TreinoSemanaUpdate;
-
+                if(_TreinoUsuarios.DataExecucao != null)
+                {
+                    _TreinoSemanaUpdate.Status = false;
+                    _TreinoSemanaUpdate.Msg = "O treino já foi salvo em " + _TreinoUsuarios.DataExecucao;
+                    return _TreinoSemanaUpdate;
+                }
             }
-
-            DateHelpers _DateHelpers = new DateHelpers();
-
-            DateTime DataInicio = _DateHelpers.GetNextDateForDay(TreinoSemanaEdit.IDSemanaDia);
-
-            if (DataInicio < DateTime.Now)
-            {
-                _TreinoSemanaUpdate.Status = false;
-                _TreinoSemanaUpdate.Msg = "Data Inicio deve ser maior ou igual a data de hoje";
-                return _TreinoSemanaUpdate;
-            }
-
-            SemanaUsuariosDTO _SemanaUsuario = _SemanaUsuarios.Where((semana) => semana.IDUsuario == IDUsuario && semana.IDSemana == TreinoSemanaEdit.IDSemana).FirstOrDefault();
-
-            if (_SemanaUsuario == null)
-            {
-                _TreinoSemanaUpdate.Status = false;
-                _TreinoSemanaUpdate.Msg = "Semana de treino não encontrada!";
-                return _TreinoSemanaUpdate;
-            }
-
-            List<TreinoUsuariosDTO> _TreinoUsuario = TreinosDAO.SelectTreinoUsuariosPorIDUsuarioAndIDSemana(IDUsuario, TreinoSemanaEdit.IDSemana);
-            var SemanaDiasNSelecionadas = _TreinoUsuario.Where(item => !TreinoSemanaEdit.TreinoUsuarioEdit.Any(item2 => item2.IDSemanaDia == item.IDSemanaDia));
-
-            if (SemanaDiasNSelecionadas.Count() > 0)
-            {
-                _TreinoSemanaUpdate.Status = false;
-                _TreinoSemanaUpdate.Msg = "Voçê não enviou todos os dias da semana";
-                return _TreinoSemanaUpdate;
-            }
-
-            if (_SemanaUsuario.DataFim > DateTime.Now)
-            {
-                _TreinoSemanaUpdate.Status = false;
-                _TreinoSemanaUpdate.Msg = "Voce só poderá solicitar um novo treino a partir de: " + _SemanaUsuario.DataFim;
-                 return _TreinoSemanaUpdate;
-            }
-
-            List<SemanasDTO> _Semanas = TreinosDAO.SelectSemanas();
-            List<SemanaUsuariosDTO> _SemanasUsuarios = TreinosDAO.SelectSemanasUsuarioPorIDUsuario(IDUsuario);
-            var SemanasNSelecionadas = _Semanas.Where(item => !_SemanasUsuarios.Any(item2 => item2.IDSemana == item.IDSemana));
-            int _IDSemanaNovo = SemanasNSelecionadas.Min((semana) => semana.IDSemana);
-            int _IDTipo = TreinosDAO.SelectTreinosPorIDSemana(_IDSemanaNovo).FirstOrDefault().IDTipo;
-
-            _TreinoSemanaUpdate.IDTipo = _IDTipo;
-            _TreinoSemanaUpdate.DataInicio = DataInicio;
-            _TreinoSemanaUpdate.IDSemanaNovo = _IDSemanaNovo;
 
             return _TreinoSemanaUpdate;
         }

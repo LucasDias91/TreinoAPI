@@ -9,14 +9,17 @@ namespace TreinoAPI.DTO.Treinos
     public class TreinoSemanaEditDTO
     {
         [Required]
-        public int IDSemanaDia { get; set; }
+        public int IDTreinoUsuario { get; set; }
 
         [Required]
-        public int IDSemana { get; set; }
-
+        public bool Executado { get; set; }
 
         [Required]
-        public List<TreinoUsuarioEditDTO> TreinoUsuarioEdit { get; set; }
+        public int TempoTreino { get; set; }
 
+        [Required]
+        public DateTime DataExecucao { get; set; }
+
+        
     }
 }

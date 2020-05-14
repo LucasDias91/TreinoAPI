@@ -21,7 +21,11 @@ namespace TreinoAPI.DTO.Treinos
 
         public int IDDivisao { get; set; }
 
-        public Nullable<bool> Executado { get; set; }
+        public bool Executado { get; set; }
+
+        public int TempoTreino { get; set; }
+
+        public Nullable<DateTime> DataExecucao { get; set; }
 
         public bool Ativo { get; set; }
 
