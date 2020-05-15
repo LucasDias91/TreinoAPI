@@ -104,7 +104,7 @@ namespace TreinoAPI.Controllers
                     return BadRequest(TreinoSemanaUpdate.Msg);
                 }
 
-                TreinosDAO.UpdateTreinoSemanas(_IDUsuario, TreinoSemanaEdit.IDTreinoUsuario, TreinoSemanaEdit.Executado, TreinoSemanaEdit.TempoTreino, TreinoSemanaEdit.DataExecucao);
+                TreinosDAO.UpdateTreinoSemanas(_IDUsuario, TreinoSemanaEdit.IDTreinoUsuario, TreinoSemanaEdit.Executado, TreinoSemanaEdit.TempoTreino, TreinoSemanaEdit.DataExecucao, TreinoSemanaEdit.Treinando);
 
             }
             catch (Exception ex)

@@ -76,10 +76,17 @@ namespace TreinoAPI.EVR
 
             if (_TreinoUsuarios != null)
             {
-                if(_TreinoUsuarios.DataExecucao != null)
+                /* if(_TreinoUsuarios.DataExecucao != null)
+                 {
+                     _TreinoSemanaUpdate.Status = false;
+                     _TreinoSemanaUpdate.Msg = "O treino já foi salvo em " + _TreinoUsuarios.DataExecucao;
+                     return _TreinoSemanaUpdate;
+                 } */
+
+                if (_TreinoUsuarios.TempoTreino > TreinoSemanaEdit.TempoTreino)
                 {
                     _TreinoSemanaUpdate.Status = false;
-                    _TreinoSemanaUpdate.Msg = "O treino já foi salvo em " + _TreinoUsuarios.DataExecucao;
+                    _TreinoSemanaUpdate.Msg = "Tempo treino menor que o anterior!";
                     return _TreinoSemanaUpdate;
                 }
             }

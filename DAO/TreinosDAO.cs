@@ -113,6 +113,7 @@ namespace TreinoAPI.DAO
                         TreinoUsuario.Executado,
                         TreinoUsuario.TempoTreino,
                         TreinoUsuario.DataExecucao,
+                        TreinoUsuario.Treinando,
                         QtdExercicios = Treinos.Where((treino) => TreinoUsuario.IDSemana == treino.IDSemana && Divisao.IDDivisao == treino.IDDivisao).Count(),
                         Intervalo = GetIntervalo(Treinos, Intervalos, TreinoUsuario.IDSemana, Divisao.IDDivisao),
                         Grupos = GetGrupos(TreinoUsuario.IDSemana, Divisao.IDDivisao),
@@ -236,7 +237,7 @@ namespace TreinoAPI.DAO
             DbTreino.SaveChanges();
         }
 
-        public void UpdateTreinoSemanas(int IDUsuario, int IDTreinoUsuario,bool Executado, int TempoTreino, DateTime DataExecucao)
+        public void UpdateTreinoSemanas(int IDUsuario, int IDTreinoUsuario,bool Executado, int TempoTreino, Nullable<DateTime> DataExecucao, bool Treinando)
         {
             try
             {
@@ -246,6 +247,7 @@ namespace TreinoAPI.DAO
                 _TreinoUsuario.Executado = Executado;
                 _TreinoUsuario.TempoTreino = TempoTreino;
                 _TreinoUsuario.DataExecucao = DataExecucao;
+                _TreinoUsuario.Treinando = Treinando;
                 DbTreino.Update(_TreinoUsuario);
 
             }

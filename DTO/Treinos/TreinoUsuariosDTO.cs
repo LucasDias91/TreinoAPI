@@ -33,5 +33,7 @@ namespace TreinoAPI.DTO.Treinos
 
         public Nullable<DateTime> LastEditDate { get; set; }
 
+        public bool Treinando { get; set; }
+
     }
 }
